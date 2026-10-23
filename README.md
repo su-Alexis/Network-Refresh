@@ -6,6 +6,11 @@ DHCP leases, then tells you whether it helped.
 **Nothing in it requires a reboot.** Every command takes effect the moment it
 runs. There is no shutdown or restart anywhere in the file.
 
+This is the standalone copy of the `net-reset-lite.bat` that
+[winGG10&11](https://github.com/su-Alexis/winGG10-11) writes to the Desktop. The two
+are kept byte-identical: if they ever differ, the copy embedded in winGG10&11 is the
+current one. winGG10&11 only writes this file; it never runs it.
+
 ---
 
 ## Usage
@@ -71,7 +76,9 @@ Because the stack is never reset, statically configured DNS servers are never
 wiped, so unlike the heavier tool this one needs no save-and-restore dance for
 them. It just records them in the log.
 
-If this script does not fix the problem, **Network Stack Reset** is the next step
+If this script does not fix the problem,
+[Network Stack Reset](https://github.com/su-Alexis/Network-Stack-Reset)
+(`net-reset-reboot.bat`) is the next step
 up — it runs those four and reboots. This script says so at the end when its
 checks still report the network as down.
 
@@ -91,8 +98,8 @@ Both sets of checks go into the log so you can compare them.
 
 ## What it writes
 
-A timestamped log in `netreset-logs\` beside the script, falling back to `%TEMP%`
-if that is not writable. It shares that folder with Network Stack Reset but uses
+A timestamped log, `netlite_<stamp>.log`, in `netreset-logs\` beside the script,
+falling back to `%TEMP%` if that is not writable. It shares that folder with Network Stack Reset but uses
 its own filename prefix, so the two never collide.
 
 ## Design notes
@@ -115,6 +122,15 @@ its own filename prefix, so the two never collide.
   than the default.
 - If a renew fails you are briefly left without an address; `ipconfig /renew`
   gets it back.
+
+## Related tools
+
+- [winGG10&11](https://github.com/su-Alexis/winGG10-11): the Windows setup script
+  that deploys this and the other two tools.
+- [Windows Cleanup](https://github.com/su-Alexis/Windows-Cleanup)
+  (`cleanup_main.bat`): scan-first temp, cache and memory cleanup.
+- [Network Stack Reset](https://github.com/su-Alexis/Network-Stack-Reset)
+  (`net-reset-reboot.bat`): full TCP/IP and Winsock reset, needs a reboot.
 
 ## Requirements
 
